@@ -1,0 +1,9 @@
+.vscode
+/admin/node_modules
+/admin/dist
+
+/backend/.idea
+/backend/target
+/backend/logs
+
+/mini/START.txt

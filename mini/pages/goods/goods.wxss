@@ -1,0 +1,249 @@
+/* pages/goods/goods.wxss */
+
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #FFFFFF;
+}
+
+/* 左侧分类栏 */
+.category-sidebar {
+  width: 180rpx;
+  height: 100%;
+  background-color: #FAFAFA;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 32rpx 20rpx;
+  background-color: #fafafa;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.category-item.active {
+  background-color: #ffffff;
+}
+
+.category-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6rpx;
+  height: 40rpx;
+  background-color: var(--primary-color);
+  border-radius: 0 3rpx 3rpx 0;
+}
+
+.category-name {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.category-item.active .category-name {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* 右侧商品内容 */
+.goods-content {
+  flex: 1;
+  height: 100%;
+  background-color: #ffffff;
+  padding: 20rpx 24rpx 160rpx;
+}
+
+/* 分类区块 */
+.goods-section {
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-color);
+  padding: 16rpx 0 24rpx;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 12rpx;
+  width: 32rpx;
+  height: 4rpx;
+  background-color: var(--primary-color);
+  border-radius: 2rpx;
+}
+
+/* 商品列表 */
+.goods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.goods-card {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  transition: all 0.2s ease;
+}
+
+.goods-card:active {
+  transform: scale(0.98);
+}
+
+.goods-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  background-color: #f8f8f8;
+  flex-shrink: 0;
+}
+
+.goods-info {
+  flex: 1;
+  margin-left: 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.goods-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.goods-desc {
+  font-size: 24rpx;
+  color: var(--text-light);
+  margin-top: 8rpx;
+  line-height: 1.4;
+}
+
+.goods-meta {
+  display: flex;
+  gap: 16rpx;
+  font-size: 22rpx;
+  color: var(--text-light);
+  margin-top: 10rpx;
+}
+
+.goods-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.goods-price {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.add-btn {
+  width: 52rpx;
+  height: 52rpx;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #FFB347 100%);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  font-weight: 300;
+  transition: all 0.2s ease;
+}
+
+.add-btn:active {
+  transform: scale(0.9);
+  opacity: 0.8;
+}
+
+/* 购物车悬浮按钮 */
+.cart-float-btn {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 40rpx;
+  width: 680rpx;
+  height: 96rpx;
+  background-color: #ffffff;
+  border-radius: 48rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  padding: 0 16rpx 0 8rpx;
+  z-index: 999;
+}
+
+.cart-icon {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+  /* background: linear-gradient(135deg, var(--primary-color) 0%, #FFB347 100%); */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cart-icon image {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  background-color: var(--warning-color);
+  border-radius: 16rpx;
+  color: #ffffff;
+  font-size: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6rpx;
+  font-weight: 500;
+}
+
+.cart-info {
+  flex: 1;
+  padding-left: 16rpx;
+}
+
+.cart-price {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.cart-btn {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #FFB347 100%);
+  color: #ffffff;
+  padding: 18rpx 36rpx;
+  border-radius: 48rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cart-btn:active {
+  opacity: 0.8;
+}

@@ -1,0 +1,73 @@
+<!--pages/order/order.wxml-->
+<view class="container">
+  <!-- 标签栏 -->
+  <view class="tabs">
+    <view class="tab-item {{currentTab === item.id ? 'active' : ''}}" 
+          wx:for="{{tabs}}" 
+          wx:key="id" 
+          bindtap="onTabChange" 
+          data-id="{{item.id}}">
+      {{item.name}}
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list">
+    <view class="order-card" 
+          wx:for="{{orders}}" 
+          wx:key="id" 
+          wx:if="{{currentTab === 'all' || item.status === currentTab}}"
+          bindtap="viewOrder" 
+          data-id="{{item.id}}">
+      <!-- 订单头部 -->
+      <view class="order-header">
+        <text class="order-id">订单号：{{item.orderNo}}</text>
+        <text class="order-status status-{{item.status}}">{{item.statusText}}</text>
+      </view>
+
+      <!-- 订单内容 -->
+      <view class="order-content">
+        <view class="goods-info">
+          <text class="goods-count">共{{item.goodsCount}}件商品</text>
+          <text class="goods-names text-ellipsis">
+            <block wx:for="{{item.items}}" wx:for-item="goods" wx:key="id">
+              {{goods.goodsName}} x{{goods.quantity}}
+            </block>
+          </text>
+        </view>
+        <view class="order-info">
+          <text class="order-price">¥{{item.totalPrice}}</text>
+          <text class="order-time">{{item.createTime}}</text>
+        </view>
+      </view>
+
+      <!-- 订单操作 -->
+      <view class="order-actions">
+        <view class="action-btn secondary" 
+              wx:if="{{item.status === 0}}" 
+              catchtap="cancelOrder" 
+              data-id="{{item.id}}">
+          取消订单
+        </view>
+        <view class="action-btn primary" 
+              wx:if="{{item.status === 0}}" 
+              catchtap="payOrder" 
+              data-id="{{item.id}}">
+          立即支付
+        </view>
+        <view class="action-btn secondary" 
+              wx:if="{{item.status === 3}}" 
+              catchtap="reorder" 
+              data-order="{{item}}">
+          再来一单
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{orders.length === 0}}">
+      <image class="empty-image" src="/images/empty-order.png" mode="aspectFit"></image>
+      <text class="empty-text">暂无订单</text>
+    </view>
+  </view>
+</view>

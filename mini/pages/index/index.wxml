@@ -1,0 +1,45 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 轮播图 - 完全全屏显示，顶部不留白 -->
+  <view class="banner-section">
+    <swiper class="banner-swiper" autoplay circular indicator-dots indicator-color="rgba(255, 255, 255, 0.5)" indicator-active-color="#ffffff">
+      <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-item="{{item}}">
+        <image class="banner-image" src="{{item.image}}" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 推荐商品 -->
+  <view class="recommend-section">
+    <view class="section-header">
+      <text class="section-title">今日推荐</text>
+      <view class="section-more" bindtap="goToGoods">
+        <text>更多</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+    
+    <view class="goods-grid">
+      <view class="goods-item" wx:for="{{recommendGoods}}" wx:key="id" bindtap="onGoodsTap" data-id="{{item.id}}">
+        <view class="goods-image-wrap">
+          <image class="goods-image" src="{{item.image}}" mode="aspectFill"></image>
+        </view>
+        <view class="goods-info">
+          <text class="goods-name text-ellipsis-2">{{item.name}}</text>
+          <view class="goods-meta">
+            <text class="goods-unit">{{item.unit}}</text>
+            <text class="goods-sales">已售{{item.sales}}</text>
+          </view>
+          <view class="goods-bottom">
+            <view class="goods-price">
+              <text class="price">{{item.price}}</text>
+            </view>
+            <view class="goods-cart-btn" catchtap="addToCart" data-goods="{{item}}">
+              <text>+</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

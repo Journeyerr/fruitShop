@@ -1,0 +1,57 @@
+<!--pages/goods/goods.wxml-->
+<view class="container">
+  <!-- 左侧分类栏 -->
+  <scroll-view class="category-sidebar" scroll-y scroll-into-view="cat-{{currentCategory}}" scroll-with-animation>
+    <view class="category-item {{currentCategory === item.id ? 'active' : ''}}" 
+          wx:for="{{categories}}" 
+          wx:key="id" 
+          id="cat-{{item.id}}"
+          bindtap="onCategoryTap" 
+          data-id="{{item.id}}">
+      <text class="category-name">{{item.name}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 右侧商品列表 -->
+  <scroll-view class="goods-content" 
+               scroll-y 
+               scroll-into-view="{{scrollIntoView}}" 
+               scroll-with-animation
+               bindscroll="onGoodsScroll">
+    <!-- 分类商品区块 -->
+    <block wx:for="{{categoryGoods}}" wx:key="categoryId">
+      <view class="goods-section" id="section-{{item.categoryId}}">
+        <view class="section-title">{{item.categoryName}}</view>
+        <view class="goods-list">
+          <view class="goods-card" wx:for="{{item.goods}}" wx:key="id" wx:for-item="goods">
+            <image class="goods-image" src="{{goods.image}}" mode="aspectFill"></image>
+            <view class="goods-info">
+              <text class="goods-name text-ellipsis">{{goods.name}}</text>
+              <text class="goods-desc text-ellipsis">{{goods.desc}}</text>
+              <view class="goods-meta">
+                <text class="goods-unit">{{goods.unit}}</text>
+                <text class="goods-sales">已售{{goods.sales}}</text>
+              </view>
+              <view class="goods-footer">
+                <text class="goods-price price">{{goods.price}}</text>
+                <view class="add-btn" bindtap="addToCart" data-goods="{{goods}}">+</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 购物车悬浮按钮 -->
+  <view class="cart-float-btn" bindtap="viewCart">
+    <view class="cart-icon">
+      <image src="/images/cart.png" mode="aspectFit"></image>
+      <view class="cart-badge" wx:if="{{cartTotal > 0}}">{{cartTotal}}</view>
+    </view>
+    <view class="cart-info">
+      <text class="cart-price">¥{{cartTotalPrice}}</text>
+    </view>
+    <view class="cart-btn">去结算</view>
+  </view>
+</view>

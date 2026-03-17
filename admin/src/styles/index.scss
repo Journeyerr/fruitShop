@@ -1,0 +1,246 @@
+// 全局样式
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+}
+
+// 响应式布局变量
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+
+// Element Plus 导航菜单深色主题覆盖
+.el-menu {
+  &.el-menu--vertical {
+    .el-menu-item,
+    .el-sub-menu__title {
+      color: #ffffff !important;
+      
+      .el-icon {
+        color: #ffffff !important;
+      }
+      
+      &:hover {
+        background-color: #263445 !important;
+        color: #ffffff !important;
+      }
+    }
+    
+    .el-sub-menu {
+      .el-menu {
+        background-color: #263445 !important;
+        
+        .el-menu-item {
+          color: #bfcbd9 !important;
+          
+          &:hover {
+            color: #ffffff !important;
+          }
+        }
+      }
+    }
+    
+    .el-menu-item.is-active {
+      color: #409eff !important;
+      background-color: #263445 !important;
+      
+      .el-icon {
+        color: #409eff !important;
+      }
+    }
+    
+    .el-sub-menu.is-active > .el-sub-menu__title {
+      color: #ffffff !important;
+      
+      .el-icon {
+        color: #ffffff !important;
+      }
+    }
+  }
+}
+
+
+// 公共样式
+.page-container {
+  padding: 20px;
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 15px;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 10px;
+  }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+  
+  .page-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #303133;
+  }
+}
+
+.search-form {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 15px;
+    
+    .el-form-item {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.table-container {
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 10px;
+    overflow-x: auto;
+  }
+}
+
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  
+  @media (max-width: $breakpoint-mobile) {
+    justify-content: center;
+    
+    .el-pagination {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
+
+// 操作按钮组
+.action-buttons {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+// 状态标签
+.status-tag {
+  &.success {
+    background-color: #f0f9eb;
+    color: #67c23a;
+  }
+  
+  &.warning {
+    background-color: #fdf6ec;
+    color: #e6a23c;
+  }
+  
+  &.danger {
+    background-color: #fef0f0;
+    color: #f56c6c;
+  }
+  
+  &.info {
+    background-color: #f4f4f5;
+    color: #909399;
+  }
+}
+
+// 图片预览
+.image-preview {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  object-fit: cover;
+  
+  @media (max-width: $breakpoint-mobile) {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// Element Plus 图片预览层z-index
+.el-image-viewer__wrapper {
+  z-index: 99999 !important;
+}
+
+// 响应式表格
+@media (max-width: $breakpoint-mobile) {
+  .el-table {
+    font-size: 12px;
+    
+    .el-table__header th {
+      padding: 8px 0;
+    }
+    
+    .el-table__body td {
+      padding: 8px 0;
+    }
+  }
+}
+
+// 卡片网格布局
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  
+  @media (max-width: $breakpoint-mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// 统计卡片
+.stat-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  
+  .stat-title {
+    font-size: 14px;
+    color: #909399;
+    margin-bottom: 10px;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #303133;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 24px;
+    }
+  }
+  
+  .stat-trend {
+    margin-top: 10px;
+    font-size: 12px;
+    
+    &.up {
+      color: #67c23a;
+    }
+    
+    &.down {
+      color: #f56c6c;
+    }
+  }
+}
