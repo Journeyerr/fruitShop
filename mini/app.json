@@ -17,10 +17,10 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#459EE7",
+    "color": "#9CA3AF",
+    "selectedColor": "#43B77A",
     "backgroundColor": "#ffffff",
-    "borderStyle": "black",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -30,7 +30,7 @@
       },
       {
         "pagePath": "pages/goods/goods",
-        "text": "选购",
+        "text": "点单",
         "iconPath": "images/goods.png",
         "selectedIconPath": "images/goods-active.png"
       },

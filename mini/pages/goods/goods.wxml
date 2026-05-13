@@ -8,6 +8,8 @@
           id="cat-{{item.id}}"
           bindtap="onCategoryTap" 
           data-id="{{item.id}}">
+      <view class="category-indicator" wx:if="{{currentCategory === item.id}}"></view>
+      <image class="category-icon" wx:if="{{item.icon}}" src="{{item.icon}}" mode="aspectFit"></image>
       <text class="category-name">{{item.name}}</text>
     </view>
   </scroll-view>
@@ -18,23 +20,25 @@
                scroll-into-view="{{scrollIntoView}}" 
                scroll-with-animation
                bindscroll="onGoodsScroll">
-    <!-- 分类商品区块 -->
     <block wx:for="{{categoryGoods}}" wx:key="categoryId">
       <view class="goods-section" id="section-{{item.categoryId}}">
         <view class="section-title">{{item.categoryName}}</view>
         <view class="goods-list">
-          <view class="goods-card" wx:for="{{item.goods}}" wx:key="id" wx:for-item="goods">
-            <image class="goods-image" src="{{goods.image}}" mode="aspectFill"></image>
+          <view class="goods-card" wx:for="{{item.goods}}" wx:key="id" wx:for-item="goods" bindtap="showGoodsDetail" data-goods="{{goods}}">
+            <view class="goods-image-wrap">
+              <image class="goods-image" src="{{goods.image}}" mode="aspectFill"></image>
+            </view>
             <view class="goods-info">
               <text class="goods-name text-ellipsis">{{goods.name}}</text>
-              <text class="goods-desc text-ellipsis">{{goods.desc}}</text>
-              <view class="goods-meta">
-                <text class="goods-unit">{{goods.unit}}</text>
-                <text class="goods-sales">已售{{goods.sales}}</text>
-              </view>
+              <text class="goods-desc text-ellipsis">{{goods.desc || goods.specification || goods.unit}}</text>
               <view class="goods-footer">
-                <text class="goods-price price">{{goods.price}}</text>
-                <view class="add-btn" bindtap="addToCart" data-goods="{{goods}}">+</view>
+                <view class="price-wrap">
+                  <text class="price">{{goods.price}}</text>
+                  <text class="unit">/{{goods.unit}}</text>
+                </view>
+                <view class="add-btn" catchtap="addToCart" data-goods="{{goods}}">
+                  <text>+</text>
+                </view>
               </view>
             </view>
           </view>
@@ -44,14 +48,56 @@
   </scroll-view>
 
   <!-- 购物车悬浮按钮 -->
-  <view class="cart-float-btn" bindtap="viewCart">
-    <view class="cart-icon">
-      <image src="/images/cart.png" mode="aspectFit"></image>
-      <view class="cart-badge" wx:if="{{cartTotal > 0}}">{{cartTotal}}</view>
+  <view class="cart-float-btn" wx:if="{{cartTotal > 0}}" bindtap="viewCart">
+    <view class="cart-left">
+      <view class="cart-icon-wrap">
+        <image class="cart-icon" src="/images/cart.png" mode="aspectFit"></image>
+        <view class="cart-badge" wx:if="{{cartTotal > 0}}">{{cartTotal}}</view>
+      </view>
+      <view class="cart-price-wrap">
+        <text class="cart-label">合计</text>
+        <text class="cart-price">¥{{cartTotalPrice}}</text>
+      </view>
     </view>
-    <view class="cart-info">
-      <text class="cart-price">¥{{cartTotalPrice}}</text>
+    <view class="cart-submit-btn">去结算</view>
+  </view>
+
+  <!-- 商品详情弹窗 -->
+  <view class="modal-mask" wx:if="{{showDetailModal}}" bindtap="closeDetailModal"></view>
+  <view class="modal-content {{showDetailModal ? 'show' : ''}}" wx:if="{{showDetailModal}}">
+    <view class="modal-header">
+      <image class="modal-image" src="{{detailGoods.image}}" mode="aspectFill"></image>
+      <view class="modal-close" bindtap="closeDetailModal">
+        <text>✕</text>
+      </view>
     </view>
-    <view class="cart-btn">去结算</view>
+    <scroll-view class="modal-body" scroll-y>
+      <view class="modal-info">
+        <text class="modal-name">{{detailGoods.name}}</text>
+        <view class="modal-price-row">
+          <text class="modal-price">¥{{detailGoods.price}}</text>
+          <text class="modal-unit">/{{detailGoods.unit}}</text>
+          <text class="modal-original-price" wx:if="{{detailGoods.originalPrice}}">¥{{detailGoods.originalPrice}}</text>
+        </view>
+        <view class="modal-tags">
+          <text class="modal-tag" wx:if="{{detailGoods.specification}}">{{detailGoods.specification}}</text>
+          <text class="modal-tag">库存 {{detailGoods.stock || 0}}</text>
+          <text class="modal-tag">已售 {{detailGoods.sales || 0}}</text>
+        </view>
+      </view>
+      <view class="modal-desc" wx:if="{{detailGoods.description}}">
+        <text class="modal-section-title">商品说明</text>
+        <text class="modal-section-text">{{detailGoods.description}}</text>
+      </view>
+      <view class="modal-detail" wx:if="{{detailGoods.detail}}">
+        <text class="modal-section-title">商品介绍</text>
+        <text class="modal-section-text">{{detailGoods.detail}}</text>
+      </view>
+    </scroll-view>
+    <view class="modal-footer">
+      <view class="modal-add-btn" bindtap="addToCartFromModal">
+        <text>加入购物车</text>
+      </view>
+    </view>
   </view>
 </view>

@@ -53,11 +53,11 @@
         <image class="goods-image" src="{{item.image}}" mode="aspectFill"></image>
         <view class="goods-content">
           <text class="goods-name text-ellipsis">{{item.name}}</text>
-          <view class="goods-meta">
-            <text class="goods-unit">{{item.unit}}</text>
+          <text class="goods-unit">{{item.unit}}</text>
+          <view class="goods-bottom">
             <text class="goods-quantity">x{{item.quantity}}</text>
+            <text class="goods-price">¥{{item.price}}</text>
           </view>
-          <text class="goods-price">¥{{item.price}}</text>
         </view>
       </view>
     </view>

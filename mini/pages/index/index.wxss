@@ -1,21 +1,15 @@
 /* pages/index/index.wxss */
 
 .container {
-  padding-bottom: 20rpx;
-  background-color: #FFFFFF;
-  /* 确保从顶部开始 */
-  padding-top: 0;
+  padding-bottom: 24rpx;
+  background-color: var(--background-color);
 }
 
-/* 轮播图 - 完全全屏显示，顶部不留白 */
+/* 轮播图 */
 .banner-section {
   width: 100%;
-  /* 使用固定高度或视口高度 */
-  height: 65vh; /* 可以根据需要调整，或者使用 50vh */
+  height: 56vh;
   background-color: #ffffff;
-  /* 确保从页面最顶部开始 */
-  margin-top: 0;
-  padding-top: 0;
 }
 
 .banner-swiper {
@@ -28,82 +22,140 @@
   height: 100%;
 }
 
+/* 快捷操作按钮 */
+.quick-actions {
+  display: flex;
+  justify-content: space-around;
+  background-color: #ffffff;
+  margin: -40rpx 24rpx 0;
+  border-radius: var(--radius-lg);
+  padding: 36rpx 16rpx;
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  z-index: 10;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.action-icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.action-icon:active {
+  transform: scale(0.92);
+}
+
+.order-icon {
+  background: linear-gradient(135deg, #43B77A 0%, #2E9B63 100%);
+  box-shadow: 0 4rpx 12rpx rgba(67, 183, 122, 0.3);
+}
+
+.recharge-icon {
+  background: linear-gradient(135deg, #FF9F43 0%, #EE5A24 100%);
+  box-shadow: 0 4rpx 12rpx rgba(255, 159, 67, 0.3);
+}
+
+.coupon-icon {
+  background: linear-gradient(135deg, #EE5A24 0%, #C0392B 100%);
+  box-shadow: 0 4rpx 12rpx rgba(238, 90, 36, 0.3);
+}
+
+.orderlist-icon {
+  background: linear-gradient(135deg, #5F7BAB 0%, #3D5A80 100%);
+  box-shadow: 0 4rpx 12rpx rgba(95, 123, 171, 0.3);
+}
+
+.icon-text {
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.action-name {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
 /* 推荐商品 */
 .recommend-section {
-  margin-top: 20rpx;
-  background-color: #ffffff;
-  padding: 30rpx 24rpx;
+  margin-top: 24rpx;
+  padding: 32rpx 24rpx;
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24rpx;
+  margin-bottom: 28rpx;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.title-dot {
+  width: 8rpx;
+  height: 32rpx;
+  background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: 4rpx;
 }
 
 .section-title {
-  font-size: 34rpx;
-  font-weight: 600;
+  font-size: 36rpx;
+  font-weight: 700;
   color: var(--text-color);
-  position: relative;
-  padding-left: 20rpx;
-}
-
-.section-title::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6rpx;
-  height: 32rpx;
-  background: linear-gradient(180deg, var(--primary-color) 0%, #FFB347 100%);
-  border-radius: 3rpx;
 }
 
 .section-more {
   display: flex;
   align-items: center;
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: var(--text-light);
+  gap: 4rpx;
 }
 
 .section-more .arrow {
-  margin-left: 4rpx;
   font-size: 32rpx;
 }
 
-/* 商品网格 - 使用Grid布局实现自适应 */
+/* 商品网格 */
 .goods-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20rpx;
   gap: 20rpx;
-}
-
-/* 兼容不支持Grid的旧版本微信 */
-.goods-grid {
-  display: -webkit-grid;
-  display: grid;
 }
 
 .goods-item {
   background-color: #ffffff;
-  border-radius: 16rpx;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-light);
   transition: all 0.2s ease;
-  min-width: 0; /* 防止内容撑开 */
 }
 
 .goods-item:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
+  box-shadow: var(--shadow-medium);
 }
 
 .goods-image-wrap {
   width: 100%;
-  padding-bottom: 100%; /* 1:1 宽高比 */
-  background-color: #f8f8f8;
+  padding-bottom: 100%;
+  background-color: #f8f8fc;
   position: relative;
   overflow: hidden;
 }
@@ -114,56 +166,76 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+}
+
+.goods-tag {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  background: linear-gradient(135deg, var(--accent-color) 0%, #C0392B 100%);
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
 }
 
 .goods-info {
-  padding: 20rpx;
+  padding: 20rpx 20rpx 24rpx;
 }
 
 .goods-name {
   font-size: 28rpx;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-color);
   line-height: 1.4;
-  height: 78rpx;
 }
 
-.goods-meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12rpx;
-  font-size: 24rpx;
+.goods-desc {
+  font-size: 22rpx;
   color: var(--text-light);
+  margin-top: 6rpx;
+  display: block;
 }
 
 .goods-bottom {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   margin-top: 16rpx;
 }
 
 .goods-price {
-  font-size: 32rpx;
-  font-weight: 600;
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.goods-price .price {
+  font-size: 34rpx;
+}
+
+.original-price {
+  font-size: 22rpx;
+  color: var(--text-light);
+  text-decoration: line-through;
 }
 
 .goods-cart-btn {
   width: 52rpx;
   height: 52rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #FFB347 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 36rpx;
   font-weight: 300;
+  box-shadow: 0 4rpx 12rpx rgba(67, 183, 122, 0.3);
   transition: all 0.2s ease;
 }
 
 .goods-cart-btn:active {
-  transform: scale(0.9);
-  opacity: 0.8;
+  transform: scale(0.88);
 }

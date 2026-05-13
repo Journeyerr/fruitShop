@@ -7,6 +7,7 @@ Page({
     isLogin: false,
     cart: [],
     totalPrice: 0,
+    selectedCount: 0,
     allSelected: true,
     deliveryMethod: 'pickup',
     selectedAddress: null,
@@ -55,22 +56,41 @@ Page({
     // 检查登录状态
     const token = wx.getStorageSync('token')
     if (!token) {
-      // 未登录时显示空购物车
       this.setData({
         cart: [],
         totalPrice: 0,
+        selectedCount: 0,
         allSelected: true
       })
       return
     }
     
     const cart = app.globalData.cart
-    const totalPrice = app.globalData.cartTotalPrice
-    const allSelected = cart.every(item => item.selected !== false)
+    // 确保每个商品有selected属性
+    cart.forEach(item => {
+      if (item.selected === undefined) {
+        item.selected = true
+      }
+    })
     
+    const allSelected = cart.length > 0 && cart.every(item => item.selected !== false)
+    this.calculateTotal(cart, allSelected)
+  },
+
+  // 计算选中商品的总价和数量
+  calculateTotal(cart, allSelected) {
+    let totalPrice = 0
+    let selectedCount = 0
+    cart.forEach(item => {
+      if (item.selected !== false) {
+        totalPrice += item.price * item.quantity
+        selectedCount += item.quantity
+      }
+    })
     this.setData({
       cart,
-      totalPrice,
+      totalPrice: Math.round(totalPrice * 100) / 100,
+      selectedCount,
       allSelected
     })
   },
@@ -92,6 +112,21 @@ Page({
       cart[index].quantity--
       app.updateCartInfo()
       this.loadCart()
+    } else {
+      // 数量为1时，点击-号触发删除
+      wx.showModal({
+        title: '提示',
+        content: '确定要删除这个商品吗？',
+        confirmColor: '#EE5A24',
+        success: (res) => {
+          if (res.confirm) {
+            cart.splice(index, 1)
+            app.updateCartInfo()
+            this.loadCart()
+            wx.showToast({ title: '已删除', icon: 'success' })
+          }
+        }
+      })
     }
   },
 
@@ -117,6 +152,16 @@ Page({
     })
   },
 
+  // 切换单个商品选中状态
+  toggleSelect(e) {
+    const { index } = e.currentTarget.dataset
+    const cart = this.data.cart
+    cart[index].selected = cart[index].selected === false ? true : false
+    const allSelected = cart.every(item => item.selected !== false)
+    this.calculateTotal(cart, allSelected)
+    app.updateCartInfo()
+  },
+
   // 全选
   selectAll() {
     const cart = this.data.cart
@@ -124,8 +169,7 @@ Page({
     cart.forEach(item => {
       item.selected = allSelected
     })
-    
-    this.setData({ cart, allSelected })
+    this.calculateTotal(cart, allSelected)
     app.updateCartInfo()
   },
 
@@ -252,8 +296,19 @@ Page({
     const { API } = require('../../utils/api')
     const { cart, totalPrice, deliveryMethod, selectedAddress, remark } = this.data
     
+    // 只提交选中的商品
+    const selectedCart = cart.filter(item => item.selected !== false)
+    
+    if (selectedCart.length === 0) {
+      wx.showToast({
+        title: '请选择商品',
+        icon: 'none'
+      })
+      return
+    }
+    
     // 构造订单项
-    const items = cart.map(item => ({
+    const items = selectedCart.map(item => ({
       goodsId: item.id,
       goodsName: item.name,
       goodsImage: item.image,

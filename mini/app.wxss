@@ -1,56 +1,69 @@
 /* app.wxss - 全局样式 */
 
-/* 引入WeUI */
-@import './styles/weui.wxss';
-
-/* 主题色变量 */
+/* 主题色变量 - 清新绿色系 */
 page {
-  --primary-color: #FF6B35;
-  --secondary-color: #FFB347;
-  --success-color: #09BB07;
-  --warning-color: #F76260;
-  --text-color: #333333;
-  --text-secondary: #666666;
-  --text-light: #999999;
-  --border-color: #F0F0F0;
-  --background-color: #FAFAFA;
+  --primary-color: #43B77A;
+  --primary-light: #E6F7EE;
+  --primary-dark: #2E9B63;
+  --secondary-color: #FF9F43;
+  --accent-color: #EE5A24;
+  --success-color: #43B77A;
+  --warning-color: #FF9F43;
+  --danger-color: #EE5A24;
+  --info-color: #5F7BAB;
+  --text-color: #1A1A2E;
+  --text-secondary: #6B7280;
+  --text-light: #9CA3AF;
+  --text-white: #FFFFFF;
+  --border-color: #F0F0F5;
+  --background-color: #F7F8FC;
   --card-background: #FFFFFF;
-  
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  font-size: 16px;
+  --shadow-light: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  --shadow-medium: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  --shadow-strong: 0 8rpx 30rpx rgba(0, 0, 0, 0.12);
+  --radius-sm: 12rpx;
+  --radius-md: 20rpx;
+  --radius-lg: 28rpx;
+  --radius-xl: 36rpx;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
   color: var(--text-color);
-  background-color: #FFFFFF;
+  background-color: var(--background-color);
+  -webkit-font-smoothing: antialiased;
 }
 
 /* 通用类 */
 .container {
   min-height: 100vh;
-  background-color: #FFFFFF;
+  background-color: var(--background-color);
 }
 
 /* 卡片样式 */
 .card {
   background-color: var(--card-background);
-  border-radius: 12rpx;
-  margin: 20rpx;
-  padding: 30rpx;
-  box-shadow: none;
-  border: 1rpx solid var(--border-color);
+  border-radius: var(--radius-lg);
+  margin: 20rpx 24rpx;
+  padding: 32rpx;
+  box-shadow: var(--shadow-light);
 }
 
-/* 按钮样式 */
+/* 主按钮 */
 .btn-primary {
-  background-color: var(--primary-color);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: var(--text-white);
   border: none;
-  border-radius: 50rpx;
-  padding: 20rpx 60rpx;
-  font-size: 32rpx;
-  font-weight: 500;
+  border-radius: var(--radius-xl);
+  padding: 24rpx 64rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  box-shadow: 0 4rpx 16rpx rgba(45, 185, 106, 0.3);
 }
 
 .btn-primary:active {
-  opacity: 0.8;
+  opacity: 0.85;
+  transform: scale(0.98);
 }
 
 /* 文本省略 */
@@ -92,11 +105,17 @@ page {
 
 /* 价格样式 */
 .price {
-  color: var(--warning-color);
-  font-weight: bold;
+  color: var(--accent-color);
+  font-weight: 700;
 }
 
 .price::before {
   content: '¥';
-  font-size: 24rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+/* 安全区域 */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }

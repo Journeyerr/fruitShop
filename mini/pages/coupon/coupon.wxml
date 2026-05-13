@@ -23,24 +23,30 @@
           <text class="symbol">¥</text>
           <text class="number">{{item.amount}}</text>
         </view>
-        <view class="coupon-condition">满{{item.minAmount}}元可用</view>
+        <text class="coupon-condition">满{{item.minAmount}}元可用</text>
+      </view>
+      <view class="coupon-divider">
+        <view class="circle top"></view>
+        <view class="dashed"></view>
+        <view class="circle bottom"></view>
       </view>
       <view class="coupon-right">
-        <view class="coupon-name">{{item.couponName}}</view>
-        <view class="coupon-time">有效期：{{item.startTime}} - {{item.endTime}}</view>
-        <view class="coupon-type">{{item.couponType === 1 ? '满减券' : '折扣券'}}</view>
+        <text class="coupon-name">{{item.couponName}}</text>
+        <text class="coupon-time">{{item.startTime}} - {{item.endTime}}</text>
+        <text class="coupon-type">{{item.couponType === 1 ? '满减券' : '折扣券'}}</text>
+        <view class="coupon-status-tag" wx:if="{{item.status !== 0}}">
+          <text>{{item.status === 1 ? '已使用' : '已过期'}}</text>
+        </view>
       </view>
-      <view class="coupon-status" wx:if="{{item.status !== 0}}">
-        <image wx:if="{{item.status === 1}}" src="/images/coupon-used.png" mode="aspectFit"></image>
-        <image wx:if="{{item.status === 2}}" src="/images/coupon-expired.png" mode="aspectFit"></image>
+      <view class="coupon-btn" wx:if="{{item.status === 0}}" catchtap="useCoupon">
+        去使用
       </view>
     </view>
   </view>
 
   <!-- 空状态 -->
-  <view class="empty" wx:if="{{coupons.length === 0 && !loading}}">
-    <image src="/images/empty-coupon.png" mode="aspectFit"></image>
-    <text>暂无优惠券</text>
+  <view class="empty-state" wx:if="{{coupons.length === 0 && !loading}}">
+    <text class="empty-text">暂无优惠券</text>
   </view>
 
   <!-- 加载中 -->

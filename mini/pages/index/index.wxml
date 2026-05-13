@@ -1,20 +1,51 @@
 <!--pages/index/index.wxml-->
 <view class="container">
-  <!-- 轮播图 - 完全全屏显示，顶部不留白 -->
+  <!-- 轮播图 -->
   <view class="banner-section">
-    <swiper class="banner-swiper" autoplay circular indicator-dots indicator-color="rgba(255, 255, 255, 0.5)" indicator-active-color="#ffffff">
+    <swiper class="banner-swiper" autoplay circular indicator-dots indicator-color="rgba(255, 255, 255, 0.4)" indicator-active-color="#ffffff">
       <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-item="{{item}}">
         <image class="banner-image" src="{{item.image}}" mode="aspectFill"></image>
       </swiper-item>
     </swiper>
   </view>
 
+  <!-- 快捷操作按钮 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="goToGoods">
+      <view class="action-icon order-icon">
+        <text class="icon-text">点单</text>
+      </view>
+      <text class="action-name">在线点单</text>
+    </view>
+    <view class="action-item" bindtap="goToRecharge">
+      <view class="action-icon recharge-icon">
+        <text class="icon-text">储值</text>
+      </view>
+      <text class="action-name">余额储值</text>
+    </view>
+    <view class="action-item" bindtap="goToCoupon">
+      <view class="action-icon coupon-icon">
+        <text class="icon-text">券</text>
+      </view>
+      <text class="action-name">领券中心</text>
+    </view>
+    <view class="action-item" bindtap="viewOrders">
+      <view class="action-icon orderlist-icon">
+        <text class="icon-text">单</text>
+      </view>
+      <text class="action-name">我的订单</text>
+    </view>
+  </view>
+
   <!-- 推荐商品 -->
   <view class="recommend-section">
     <view class="section-header">
-      <text class="section-title">今日推荐</text>
+      <view class="section-title-wrap">
+        <view class="title-dot"></view>
+        <text class="section-title">今日推荐</text>
+      </view>
       <view class="section-more" bindtap="goToGoods">
-        <text>更多</text>
+        <text>更多好物</text>
         <text class="arrow">›</text>
       </view>
     </view>
@@ -23,16 +54,15 @@
       <view class="goods-item" wx:for="{{recommendGoods}}" wx:key="id" bindtap="onGoodsTap" data-id="{{item.id}}">
         <view class="goods-image-wrap">
           <image class="goods-image" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="goods-tag" wx:if="{{item.sales > 300}}">热卖</view>
         </view>
         <view class="goods-info">
-          <text class="goods-name text-ellipsis-2">{{item.name}}</text>
-          <view class="goods-meta">
-            <text class="goods-unit">{{item.unit}}</text>
-            <text class="goods-sales">已售{{item.sales}}</text>
-          </view>
+          <text class="goods-name text-ellipsis">{{item.name}}</text>
+          <text class="goods-desc text-ellipsis">{{item.specification || item.unit}}</text>
           <view class="goods-bottom">
             <view class="goods-price">
               <text class="price">{{item.price}}</text>
+              <text class="original-price" wx:if="{{item.originalPrice}}">¥{{item.originalPrice}}</text>
             </view>
             <view class="goods-cart-btn" catchtap="addToCart" data-goods="{{item}}">
               <text>+</text>

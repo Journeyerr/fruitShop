@@ -3,28 +3,15 @@ const app = getApp()
 
 Page({
   data: {
-    banners: [
-      { id: 1, image: '/images/banner1.png', url: '' },
-      { id: 2, image: '/images/banner2.png', url: '' },
-      { id: 3, image: '/images/banner3.png', url: '' }
-    ],
-    recommendGoods: [
-      { id: 1, name: '云南高原蓝莓', price: 39.9, image: '/images/goods1.png', unit: '盒', sales: 256 },
-      { id: 2, name: '泰国金枕榴莲', price: 128.0, image: '/images/goods2.png', unit: '个', sales: 189 },
-      { id: 3, name: '智利车厘子', price: 89.9, image: '/images/goods3.png', unit: '斤', sales: 432 },
-      { id: 4, name: '海南金煌芒果', price: 29.9, image: '/images/goods4.png', unit: '斤', sales: 567 },
-      { id: 5, name: '阳光玫瑰葡萄', price: 59.9, image: '/images/goods5.png', unit: '串', sales: 321 },
-      { id: 6, name: '福建红心柚子', price: 19.9, image: '/images/goods6.png', unit: '个', sales: 654 }
-    ]
+    banners: [],
+    recommendGoods: []
   },
 
   onLoad() {
-    // 加载数据
     this.loadData()
   },
 
   onShow() {
-    // 更新购物车角标
     this.updateCartBadge()
   },
 
@@ -35,15 +22,11 @@ Page({
     // 获取轮播图
     API.getBanner().then(res => {
       if (res.code === 200 && res.data) {
-        // 处理轮播图数据
         const banners = res.data.map(item => {
-          // 处理图片URL
           let imageUrl = item.imageUrl
-          // 如果是相对路径，拼接完整URL
           if (imageUrl && !imageUrl.startsWith('http')) {
             imageUrl = IMAGE_BASE_URL + (imageUrl.startsWith('/') ? '' : '/') + imageUrl
           }
-          
           return {
             id: item.id,
             image: imageUrl,
@@ -56,18 +39,11 @@ Page({
       }
     }).catch(err => {
       console.error('获取轮播图失败:', err)
-      // 可以在这里显示错误提示
-      wx.showToast({
-        title: '加载轮播图失败',
-        icon: 'none',
-        duration: 2000
-      })
     })
     
     // 获取推荐商品
     API.getRecommend().then(res => {
       if (res.code === 200 && res.data) {
-        // 处理商品图片URL
         const recommendGoods = res.data.map(item => {
           let imageUrl = item.image
           if (imageUrl && !imageUrl.startsWith('http')) {
@@ -82,12 +58,6 @@ Page({
       }
     }).catch(err => {
       console.error('获取推荐商品失败:', err)
-      // 可以在这里显示错误提示
-      wx.showToast({
-        title: '加载推荐商品失败',
-        icon: 'none',
-        duration: 2000
-      })
     })
   },
 
@@ -113,29 +83,18 @@ Page({
     
     const { linkType, linkParam } = item
     
-    // linkType: 1-商品详情 2-分类 3-外链
     switch (linkType) {
       case 1:
-        // 跳转到商品详情
         if (linkParam) {
-          wx.switchTab({
-            url: '/pages/goods/goods'
-          })
+          wx.switchTab({ url: '/pages/goods/goods' })
           app.globalData.currentGoods = parseInt(linkParam)
         }
         break
       case 2:
-        // 跳转到分类页
-        wx.switchTab({
-          url: '/pages/goods/goods'
-        })
+        wx.switchTab({ url: '/pages/goods/goods' })
         if (linkParam) {
           app.globalData.currentCategory = parseInt(linkParam)
         }
-        break
-      case 3:
-        // 外链（小程序中通常用webview打开）
-        // 这里暂不处理，可根据需求扩展
         break
       default:
         break
@@ -144,18 +103,42 @@ Page({
 
   // 去选购页
   goToGoods() {
-    wx.switchTab({
-      url: '/pages/goods/goods'
-    })
+    wx.switchTab({ url: '/pages/goods/goods' })
+  },
+
+  // 去储值页
+  goToRecharge() {
+    const token = wx.getStorageSync('token')
+    if (!token) {
+      wx.showToast({ title: '请先登录', icon: 'none' })
+      app.globalData.needLogin = true
+      wx.switchTab({ url: '/pages/user/user' })
+      return
+    }
+    wx.showToast({ title: '储值功能开发中', icon: 'none' })
+  },
+
+  // 去领券中心
+  goToCoupon() {
+    const token = wx.getStorageSync('token')
+    if (!token) {
+      wx.showToast({ title: '请先登录', icon: 'none' })
+      app.globalData.needLogin = true
+      wx.switchTab({ url: '/pages/user/user' })
+      return
+    }
+    wx.navigateTo({ url: '/pages/coupon/coupon' })
+  },
+
+  // 查看订单
+  viewOrders() {
+    wx.switchTab({ url: '/pages/order/order' })
   },
 
   // 点击商品
   onGoodsTap(e) {
     const { id } = e.currentTarget.dataset
-    wx.switchTab({
-      url: '/pages/goods/goods'
-    })
-    // 传递商品ID
+    wx.switchTab({ url: '/pages/goods/goods' })
     app.globalData.currentGoods = id
   },
 

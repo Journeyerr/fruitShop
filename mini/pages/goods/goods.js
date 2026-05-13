@@ -28,6 +28,8 @@ Page({
     ],
     cartTotal: 0,
     cartTotalPrice: 0,
+    showDetailModal: false,
+    detailGoods: {},
     sectionHeights: [], // 存储各分类区块的高度
     isScrollingToCategory: false // 标记是否正在滚动到指定分类
   },
@@ -55,7 +57,8 @@ Page({
       if (res.code === 200 && res.data) {
         const categories = res.data.map(item => ({
           id: item.id,
-          name: item.name
+          name: item.name,
+          icon: item.icon
         }))
         this.setData({ categories })
         
@@ -121,6 +124,7 @@ Page({
   },
 
   onShow() {
+    this.loadData()
     this.updateCartInfo()
     this.updateCartBadge()
   },
@@ -246,6 +250,33 @@ Page({
         break
       }
     }
+  },
+
+  // 点击商品卡片显示详情弹窗
+  showGoodsDetail(e) {
+    const { goods } = e.currentTarget.dataset
+    this.setData({
+      showDetailModal: true,
+      detailGoods: goods
+    })
+  },
+
+  // 关闭详情弹窗
+  closeDetailModal() {
+    this.setData({ showDetailModal: false })
+  },
+
+  // 从弹窗加入购物车
+  addToCartFromModal() {
+    const goods = this.data.detailGoods
+    app.addToCart(goods)
+    wx.showToast({
+      title: '已加入购物车',
+      icon: 'success'
+    })
+    this.updateCartInfo()
+    this.updateCartBadge()
+    this.setData({ showDetailModal: false })
   },
 
   // 加入购物车

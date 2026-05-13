@@ -24,6 +24,12 @@ Page({
     }
   },
 
+  // 格式化时间，去掉T
+  formatDateTime(str) {
+    if (!str) return ''
+    return str.replace('T', ' ').substring(0, 19)
+  },
+
   // 加载订单详情
   loadOrderDetail() {
     wx.showLoading({ title: '加载中...' })
@@ -48,10 +54,10 @@ Page({
           id: orderData.orderNo,
           status: statusInfo.status,
           statusText: statusInfo.statusText,
-          createTime: orderData.createTime,
-          payTime: orderData.payTime,
-          deliveryTime: orderData.deliveryTime,
-          completeTime: orderData.completeTime,
+          createTime: this.formatDateTime(orderData.createTime),
+          payTime: this.formatDateTime(orderData.payTime),
+          deliverTime: this.formatDateTime(orderData.deliveryTime),
+          completeTime: this.formatDateTime(orderData.completeTime),
           goods: (orderData.items || []).map(item => ({
             id: item.goodsId,
             name: item.goodsName,

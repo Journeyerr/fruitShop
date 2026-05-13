@@ -13,7 +13,8 @@ Page({
     orders: [],
     page: 1,
     size: 10,
-    hasMore: true
+    hasMore: true,
+    loading: false
   },
 
   onLoad() {
@@ -48,12 +49,21 @@ Page({
     // 检查登录状态
     const token = wx.getStorageSync('token')
     if (!token) {
-      // 未登录，不加载订单数据
-      this.setData({ orders: [] })
+      this.setData({ orders: [], page: 1 })
       return
     }
     
+    // 每次显示时重新加载第一页
+    this.setData({ page: 1, orders: [] })
     this.loadOrders()
+  },
+
+  // 触底加载更多
+  onReachBottom() {
+    if (this.data.hasMore && !this.data.loading) {
+      this.setData({ page: this.data.page + 1 })
+      this.loadOrders()
+    }
   },
 
   // 加载订单数据
@@ -63,6 +73,9 @@ Page({
     if (!token) {
       return
     }
+    
+    if (this.data.loading) return
+    this.setData({ loading: true })
     
     const { API } = require('../../utils/api')
     const { currentTab, page, size } = this.data
@@ -90,12 +103,15 @@ Page({
         
         this.setData({
           orders: page === 1 ? orders : [...this.data.orders, ...orders],
-          hasMore: res.data.records.length >= size
+          hasMore: orders.length >= size,
+          loading: false
         })
+      } else {
+        this.setData({ loading: false })
       }
     }).catch(err => {
       console.error('获取订单失败:', err)
-      // 网络错误等异常情况才显示提示
+      this.setData({ loading: false })
       wx.showToast({
         title: '网络错误，请重试',
         icon: 'none'
@@ -203,6 +219,45 @@ Page({
             console.error('支付失败:', err)
             wx.showToast({
               title: '支付失败',
+              icon: 'none'
+            })
+          })
+        }
+      }
+    })
+  },
+
+  // 确认收货
+  confirmReceive(e) {
+    const { id } = e.currentTarget.dataset
+    const { API } = require('../../utils/api')
+    
+    wx.showModal({
+      title: '提示',
+      content: '确认已收到商品吗？',
+      success: (res) => {
+        if (res.confirm) {
+          wx.showLoading({ title: '处理中...' })
+          API.completeOrder(id).then(res => {
+            wx.hideLoading()
+            if (res.code === 200) {
+              wx.showToast({
+                title: '已确认收货',
+                icon: 'success'
+              })
+              this.setData({ page: 1, orders: [] })
+              this.loadOrders()
+            } else {
+              wx.showToast({
+                title: res.message || '操作失败',
+                icon: 'none'
+              })
+            }
+          }).catch(err => {
+            wx.hideLoading()
+            console.error('确认收货失败:', err)
+            wx.showToast({
+              title: '操作失败',
               icon: 'none'
             })
           })
